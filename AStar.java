@@ -1,9 +1,14 @@
 public class AStar
 {
+   Heuristic curHeur = null;
+      
+   public AStar(int heuristicSelect)
+   {
+      curHeur = new Heuristic(heuristicSelect);
+   }
 
    public void run(State start)
    {
-      Heuristic curHeur = new Heuristic(0);
       Node rootNode = new Node(null, start, 0, curHeur.calc(start));
    }
 
@@ -36,10 +41,10 @@ public class AStar
    
       private int simpleH(State state)
       {
-         int res = -1;
+         int res = 0;
          for(int i = 0; i < state.board.size(); i++)
          {
-            if(i != (Integer) state.board.get(i))
+            if(i+1 != (Integer) state.board.get(i))
             {
                res++;
             }

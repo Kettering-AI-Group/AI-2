@@ -3,7 +3,7 @@ import java.util.*;
 public class State
 {
    int id = -1;
-   LinkedList board = new LinkedList();
+   LinkedList<Integer> board = new LinkedList<Integer>();
    public State(int[] values)
    {
       id = values.hashCode();
@@ -13,9 +13,9 @@ public class State
    
    private void normalize()
    {
-      while((Integer) board.peek() != 1)
+      while(board.peek() != 1)
       {
-         int temp = (Integer) board.pop();
+         int temp = board.pop();
          board.addLast(temp);
       }
    }

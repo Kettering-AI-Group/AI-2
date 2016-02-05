@@ -8,7 +8,7 @@ public class Main
       boolean randomFlag = false;
    
       State startState = new State(startFileParse(Integer.parseInt(args[0]), args[1]));
-      AStar player = new AStar();
+      AStar player = new AStar(1);
       player.run(startState);
    }
    
