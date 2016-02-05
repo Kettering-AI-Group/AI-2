@@ -37,7 +37,13 @@ public class AStar
       private int simpleH(State state)
       {
          int res = -1;
-      //Later
+         for(int i = 0; i < state.board.size(); i++)
+         {
+            if(i != (Integer) state.board.get(i))
+            {
+               res++;
+            }
+         }
          return res;
       }
    
