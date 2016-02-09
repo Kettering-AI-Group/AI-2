@@ -3,50 +3,58 @@ import java.util.*;
 
 public class Main
 {
-   public static void main(String [] args)
-   {
-      boolean randomFlag = false;
-   
-      State startState = new State(startFileParse(Integer.parseInt(args[0]), args[1]));
+   public static void main(String [] args){
+      int size = 6;
+      String fileLoc = "random";
+      
+      if(args.length == 1){
+         size = Integer.parseInt(args[0]);
+      }else if(args.length == 2){
+         size = Integer.parseInt(args[0]);
+         fileLoc = args[1];
+      }else{
+         System.out.println("No arguments or incorret supplied, using size " + size + " with " + fileLoc + " ordering");
+      }
+      
+      State startState = new State(startFileParse(size, fileLoc));
+      startState.printState();
+      
       AStar player = new AStar(1);
       player.run(startState);
    }
    
-   private static int[] startFileParse(int size, String fileName)
-   {
+   private static int[] startFileParse(int size, String fileName){
       int[] res = new int[size];
       File file = new File(fileName);
-      if(fileName.equals("random"))
-      {
+      
+      if(fileName.equals("random")){
          Random rgen = new Random();
-         for(int i = 0; i < res.length; i++)
-         {
+         
+         for(int i = 0; i < res.length; i++){
             res[i] = i + 1;
          }
-         for(int i = 0; i < res.length; i++)
-         {
+         
+         for(int i = 0; i < res.length; i++){
             int randomPos = rgen.nextInt(res.length);
             int temp = res[i];
             res[i] = res[randomPos];
             res[randomPos] = temp;
          }
-      }
-      else
-      {
+      }else{
          try {
             Scanner scan = new Scanner(file);
-            for(int count = 0; scan.hasNextInt(); count++)
-            {
+            
+            for(int count = 0; scan.hasNextInt(); count++){
                res[count] = scan.nextInt();
             }
+            
             scan.close();
          } 
-         catch(FileNotFoundException e)
-         {
+         catch(FileNotFoundException e){
             e.printStackTrace();
          }
       }
-      //for(int i: res){ System.out.print(i + " ");}
+      
       return res;
    }
 }
