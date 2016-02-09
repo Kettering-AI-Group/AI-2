@@ -19,7 +19,7 @@ public class AStar{
       nodeTree = new Tree(rootNode);
       
       genChildren(rootNode);
-      nodeTree.printTree();
+      nodeTree.printUnexpandedNodes();
    }
    
    private void genChildren(Node curNode){
@@ -30,8 +30,9 @@ public class AStar{
          newState.rotate(i);
          
          if(!nodeTree.isExpanded(newState)){
-            Node rootNode = new Node(curNode, newState, curHeur.calc(newState));
-            nodeTree.addNode(rootNode);
+            Node newNode = new Node(curNode, newState, curHeur.calc(newState));
+            nodeTree.addNode(newNode);
+            genChildren(newNode);
          }
       }
    }
