@@ -2,19 +2,17 @@ import java.util.*;
 import java.lang.*;
 
 public class State{
-   int id = -1;
+   String id = "";
    private int size;
    LinkedList<Integer> board = new LinkedList<Integer>();
    
    public State(int[] values){
-      id = values.hashCode();
-      size = values.length;
-      
       for(int i: values){ 
          board.add(i); 
-      }
-      
+      } 
       normalize();
+      size = values.length;
+      id = genHashId();
    }
    
    private void normalize(){
@@ -53,7 +51,6 @@ public class State{
       board.set(3, board.get(0));
       board.set(1, first);
       board.set(0, second);
-      
       normalize();
    }
    

@@ -44,6 +44,9 @@ public class Node
       return pathCost;
    }
    
+   public boolean isFinal(){
+   
+   }
    public void printNode(){
       if(parent != null){
          System.out.println("id: " + state.getId() + 

@@ -1,12 +1,16 @@
 /**************************************************
-Class Name:AStar
-Author's Name:
-Date: 2/6/2016
+Class Name:AStar
+Author's Name:
+Date: 2/6/2016
 Description of the class: Runs the AStar on the sliding puzzle using a given Heuristic 
 ***************************************/
+import java.util.*;
+
 public class AStar{
    Heuristic curHeur = null;
    Tree nodeTree;   
+   ArrayList<Node> fringe = new ArrayList<Node>();
+   ArrayList<Node> expanded = new ArrayList<Node>();
    private int size = 0;
    
    public AStar(int heuristicSelect){
@@ -15,23 +19,36 @@ public class AStar{
 
    public void run(State start){
       Node rootNode = new Node(null, start, 0, curHeur.calc(start));
-      nodeTree = new Tree(rootNode);
-      
-      genChildren(rootNode);
+      //nodeTree = new Tree(rootNode);
+      fringe.add(rootNode);
+      while(fringe.size() != 0)
+      {
+         genChildren(fringe.remove(0));
+      }
       nodeTree.printTree();
    }
    
    private void genChildren(Node curNode){
+      //check if final
       State curState = curNode.getState();
-               
+      if(curState.isFinal())
+      {
+      //finish
+      }
+            //add cur to expanded
+      expanded.add(curNode);
+      //gen children              
       for(int i = 1; i <= curState.size(); i++){
          State newState = curState.clone();
          newState.rotate(i);
-         
-         if(!nodeTree.isExpanded(newState)){
+         //check if children are added to fringe
+         if(!expanded.contains(newState.getId())){
             Node newNode = new Node(curNode, newState, curHeur.calc(newState));
-            nodeTree.addNode(newNode);
-            genChildren(newNode);
+            int marker;
+            for(marker = 0; marker < size && fringe.get(marker).getTotalCost() > newNode.getTotalCost(); marker++)
+            {
+            }
+            fringe.add(marker, newNode);
          }
       }
    }
