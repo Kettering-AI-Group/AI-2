@@ -8,20 +8,20 @@ public class Node
 
    //allows direct specification of path cose
    public Node(Node pNode, State myState, int gCost, int hCost){
+      this.setup(pNode, myState, gCost, hCost);
+   }
+
+   //bases path cost of 1 plus parent cost
+   public Node(Node pNode, State myState, int hCost){
+      this.setup(pNode, myState, (pNode.getPathCost() + 1), hCost);
+   }
+   
+   private void setup(Node pNode, State myState, int gCost, int hCost){
       parent = pNode;
       state = myState;
       pathCost = gCost;
       heuristicCost = hCost;
       totalCost = gCost + hCost;   
-   }
-
-   //bases path cost of 1 plus parent cost
-   public Node(Node pNode, State myState, int hCost){
-      parent = pNode;
-      state = myState;
-      pathCost = pNode.getPathCost() + 1;
-      heuristicCost = hCost;
-      totalCost = pathCost + hCost;   
    }
    
    public State getState(){

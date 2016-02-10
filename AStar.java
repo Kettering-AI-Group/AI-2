@@ -9,7 +9,7 @@ public class AStar{
    Heuristic curHeur = null;
    Tree nodeTree;   
    ArrayList<Node> fringe = new ArrayList<Node>();
-   ArrayList<Node> expanded = new ArrayList<Node>();
+   ArrayList<String> expanded = new ArrayList<String>();
    private int size = 0;
    
    public AStar(int heuristicSelect){
@@ -20,37 +20,49 @@ public class AStar{
       Node rootNode = new Node(null, start, 0, curHeur.calc(start));
       //nodeTree = new Tree(rootNode);
       fringe.add(rootNode);
-      while(fringe.size() != 0)
-      {
+      
+      while(fringe.size() != 0){
          genChildren(fringe.remove(0));
       }
+      
       nodeTree.printTree();
    }
    
    private void genChildren(Node curNode){
       //check if final
       State curState = curNode.getState();
-      if(curNode.isFinal())
-      {
+      
+      if(curNode.isFinal()){
               curNode.printNode();
               System.exit(0);
       }
-            //add cur to expanded
-      expanded.add(curNode);
+      
+      //add cur to expanded
+      expanded.add(curNode.getState().getId());
+      
       //gen children              
       for(int i = 1; i <= curState.size(); i++){
          State newState = curState.clone();
          newState.rotate(i);
+         
          //check if children are added to fringe
          if(!expanded.contains(newState.getId())){
             Node newNode = new Node(curNode, newState, curHeur.calc(newState));
-            int marker;
-            for(marker = 0; marker < size && fringe.get(marker).getTotalCost() > newNode.getTotalCost(); marker++)
-            {
-            }
-            fringe.add(marker, newNode);
+            addedUnExpandedNode(newNode);
          }
       }
+   }
+   
+   private void addedUnExpandedNode(Node node){
+      int totalCost = node.getTotalCost();
+      int size = fringe.size();
+      int i = 0;
+      
+      while((size > i) && (fringe.get(i).getTotalCost() < totalCost)){
+         i++;
+      }
+      
+      fringe.add(i, node);
    }
 
    class Heuristic{
