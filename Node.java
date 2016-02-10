@@ -45,12 +45,12 @@ public class Node
    }
    
    public boolean isFinal(){
-      int past = state.get(0);
+      int past = state.board.get(0);
       int current;
       int i;
       
-      for(i = 1; i < state.size(); i++){
-         current = state.get(i);
+      for(i = 1; i < state.board.size(); i++){
+         current = state.board.get(i);
          
          if(past > current){
             return false;

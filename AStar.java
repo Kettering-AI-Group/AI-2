@@ -1,9 +1,8 @@
-/**************************************************
-Class Name:AStar
+/*Class Name:AStar
 Author's Name:
 Date: 2/6/2016
-Description of the class: Runs the AStar on the sliding puzzle using a given Heuristic 
-***************************************/
+Description of the class: Runs the AStar on the sliding puzzle using a given Heuristic 
+*/
 import java.util.*;
 
 public class AStar{
@@ -31,9 +30,10 @@ public class AStar{
    private void genChildren(Node curNode){
       //check if final
       State curState = curNode.getState();
-      if(curState.isFinal())
+      if(curNode.isFinal())
       {
-      //finish
+              curNode.printNode();
+              System.exit(0);
       }
             //add cur to expanded
       expanded.add(curNode);

@@ -12,10 +12,10 @@ public class Main{
          size = Integer.parseInt(args[0]);
          fileLoc = args[1];
       }else{
-         System.out.println("No arguments or incorret supplied, using size " + size + " with " + fileLoc + " ordering");
+         System.out.println("No arguments or incorrect args supplied, using size " + size + " with " + fileLoc + " ordering");
       }
       
-      State startState = new State(new int[]{1,3,2,4,6,5});   //startFileParse(size, fileLoc)
+      State startState = new State(new int[]{5,6,2,1,4,3});   //startFileParse(size, fileLoc)
       AStar player = new AStar(1);
       player.run(startState);
    }
