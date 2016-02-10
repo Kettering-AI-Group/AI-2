@@ -1,12 +1,11 @@
 import java.io.*;
 import java.util.*;
 
-public class Main
-{
+public class Main{
    public static void main(String [] args){
       int size = 6;
       String fileLoc = "random";
-      
+
       if(args.length == 1){
          size = Integer.parseInt(args[0]);
       }else if(args.length == 2){
@@ -16,7 +15,7 @@ public class Main
          System.out.println("No arguments or incorret supplied, using size " + size + " with " + fileLoc + " ordering");
       }
       
-      State startState = new State(startFileParse(size, fileLoc));   
+      State startState = new State(new int[]{1,3,2,4,6,5});   //startFileParse(size, fileLoc)
       AStar player = new AStar(1);
       player.run(startState);
    }
@@ -47,8 +46,7 @@ public class Main
             }
             
             scan.close();
-         } 
-         catch(FileNotFoundException e){
+         }catch(FileNotFoundException e){
             e.printStackTrace();
          }
       }

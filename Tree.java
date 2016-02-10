@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Tree{
    private Map<String, ArrayList<Node>> nodeChildrenMap = new HashMap<>();
-   private Map<String, Node> unExpandedNodes = new HashMap<>();
+   private ArrayList<Node> unExpandedNodeArray = new ArrayList<>();
    
    public Tree(Node start){
       nodeChildrenMap.put(start.getState().getId(), new ArrayList<>(Arrays.asList(start)));
@@ -15,14 +15,26 @@ public class Tree{
    public void addNode(Node parent, Node node){
       ArrayList<Node> nodeList;
       String parentId = parent.getState().getId();
-      unExpandedNodes.put(node.getState().getId(), node);
-      
+            
       if((nodeList = nodeChildrenMap.get(parentId)) != null){
          nodeList.add(node);
+         addedUnExpandedNode(node);
       }else{
-         unExpandedNodes.remove(parentId);
+         unExpandedNodeArray.remove(parent);
          nodeChildrenMap.put(parentId, new ArrayList<>(Arrays.asList(node)));
       }
+   }
+   
+   private void addedUnExpandedNode(Node node){
+      int totalCost = node.getTotalCost();
+      int size = unExpandedNodeArray.size();
+      int i = 0;
+      
+      while((size < i) && (unExpandedNodeArray.get(i).getTotalCost() < totalCost)){
+         i++;
+      }
+      
+      unExpandedNodeArray.add(i, node);
    }
    
    //parent of node specified by node
@@ -50,18 +62,7 @@ public class Tree{
    }
    
    public ArrayList<Node> getUnexpandedNodes(){
-      Iterator iterator = unExpandedNodes.keySet().iterator();
-      String key;
-      Node value;
-      ArrayList<Node> nodeArray = new ArrayList<>();
-      
-      while (iterator.hasNext()){
-         key = iterator.next().toString();
-         value = unExpandedNodes.get(key);
-         nodeArray.add(value);
-      }
-      
-      return nodeArray;
+      return unExpandedNodeArray;
    }
    
    //find if state inside of node is expanded
@@ -96,8 +97,8 @@ public class Tree{
    }
    
    public void printUnexpandedNodes(){
-      ArrayList<Node> array = getUnexpandedNodes();
-      Node[] nodeArray = array.toArray(new Node[array.size()]);
+      ArrayList<Node> arrayList = getUnexpandedNodes();
+      Node[] nodeArray = arrayList.toArray(new Node[arrayList.size()]);
       
       for(int i =0; i< nodeArray.length; i++){
          System.out.println("-------------------------------------------------");

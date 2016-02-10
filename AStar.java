@@ -4,7 +4,6 @@ Author's Name:
 Date: 2/6/2016
 Description of the class: Runs the AStar on the sliding puzzle using a given Heuristic 
 ***************************************/
-
 public class AStar{
    Heuristic curHeur = null;
    Tree nodeTree;   
@@ -19,7 +18,7 @@ public class AStar{
       nodeTree = new Tree(rootNode);
       
       genChildren(rootNode);
-      nodeTree.printUnexpandedNodes();
+      nodeTree.printTree();
    }
    
    private void genChildren(Node curNode){
