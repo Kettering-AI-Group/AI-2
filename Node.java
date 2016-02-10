@@ -45,8 +45,23 @@ public class Node
    }
    
    public boolean isFinal(){
-   
+      int past = state.get(0);
+      int current;
+      int i;
+      
+      for(i = 1; i < state.size(); i++){
+         current = state.get(i);
+         
+         if(past > current){
+            return false;
+         }
+         
+         past = current;
+      }
+      
+      return true;
    }
+   
    public void printNode(){
       if(parent != null){
          System.out.println("id: " + state.getId() + 
