@@ -15,7 +15,7 @@ public class Main{
          System.out.println("No arguments or incorrect args supplied, using size " + size + " with " + fileLoc + " ordering");
       }
        
-      State s1 = new State(new int[]{6,2,4,1,3,5,8,7,10,9,12,11});   //startFileParse(size, fileLoc)   
+      State s1 = new State(new int[]{4,6,1,3,2,5});   //startFileParse(size, fileLoc)   
       
       AStar playerOne = new AStar(5);
       AStar playerFive = new AStar(7);

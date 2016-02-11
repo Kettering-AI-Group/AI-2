@@ -6,8 +6,7 @@ Description of the class: Runs the AStar on the sliding puzzle using a given Heu
 import java.util.*;
 
 public class AStar{
-   Heuristic curHeur = null;
-   Tree nodeTree;   
+   Heuristic curHeur = null;  
    ArrayList<Node> fringe = new ArrayList<Node>();
    ArrayList<String> expanded = new ArrayList<String>();
    private int size = 0;
@@ -49,19 +48,36 @@ public class AStar{
          State newState = curState.clone();
          newState.rotate(i);
          
-         //check if children are added to fringe
+         //check if children are in expanded
          if(!expanded.contains(newState.getId())){
             Node newNode = new Node(curNode, newState, curHeur.calc(newState));
-            addedUnExpandedNode(newNode);
+            updateFringe(newNode);
          }
       }
    }
    
-   private void addedUnExpandedNode(Node node){
+   private void updateFringe(Node node){
+   
       int totalCost = node.getTotalCost();
+      String curId = node.getState().id;
       int size = fringe.size();
       int i = 0;
-      
+      while((size > i)){
+         //Check if new node holds a state already in fringe
+         if(fringe.get(i).getState().id.equals(curId)){
+         //If it is, and is more expensive, remove
+            if(fringe.get(i).getTotalCost() > totalCost){
+               fringe.remove(i);
+               break;
+            } 
+            else {
+               return;
+            }
+         }
+         i++;
+         
+      }
+      i = 0;
       while((size > i) && (fringe.get(i).getTotalCost() < totalCost)){
          i++;
       }

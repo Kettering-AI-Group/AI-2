@@ -52,6 +52,7 @@ public class State{
       board.set(1, first);
       board.set(0, second);
       normalize();
+      id = genHashId();
    }
    
    public void printState(){
