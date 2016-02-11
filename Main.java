@@ -14,10 +14,17 @@ public class Main{
       }else{
          System.out.println("No arguments or incorrect args supplied, using size " + size + " with " + fileLoc + " ordering");
       }
+       
+      State s1 = new State(new int[]{6,2,4,1,3,5,8,7,10,9,12,11});   //startFileParse(size, fileLoc)   
       
-      State startState = new State(new int[]{3,4,2,6,1,5});   //startFileParse(size, fileLoc)
-      AStar player = new AStar(1);
-      player.run(startState);
+      AStar playerOne = new AStar(5);
+      AStar playerFive = new AStar(7);
+      
+      System.out.println("------1-------");
+      playerOne.run(s1.clone());
+      System.out.println("------5-------");
+      playerFive.run(s1.clone());
+
    }
    
    private static int[] startFileParse(int size, String fileName){

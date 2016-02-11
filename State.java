@@ -27,7 +27,7 @@ public class State{
       String hashId = "";
       
       for(int i = 0; i < size; i++){
-         hashId += board.get(i) + "";
+         hashId += board.get(i) + ",";
       }
       
       return hashId;
