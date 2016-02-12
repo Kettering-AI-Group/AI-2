@@ -1,3 +1,10 @@
+/*
+Class Name:Node
+Author's Name:
+Date: 2/11/2016
+Description of the class: This holds the order and gives ability to manipulate
+   The game board by rotation 
+*/
 import java.util.*;
 import java.lang.*;
 
