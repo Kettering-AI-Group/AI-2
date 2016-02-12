@@ -9,18 +9,24 @@ public class AStar{
    Heuristic curHeur = null;  
    ArrayList<Node> fringe = new ArrayList<Node>();
    ArrayList<String> expanded = new ArrayList<String>();
+   private int maxFringeSize = 0;
    private int size = 0;
    private int counter = 0;
+   private int debugLvl = 0;
    boolean finished = false;
    
-   public AStar(int heuristicSelect){
+   public AStar(int heuristicSelect, int dbLvl){
       curHeur = new Heuristic(heuristicSelect);
+      debugLvl = dbLvl;
    }
-
+   
+   public int getMaxFringe(){
+      return maxFringeSize;
+   }
    public void run(State start){
       counter = 0;
       finished = false;
-      Node rootNode = new Node(null, start, 0, curHeur.calc(start));
+      Node rootNode = new Node(null, start, 0, curHeur.calc(start), "None");
       fringe.add(rootNode);
       
       while(!finished){
@@ -32,10 +38,15 @@ public class AStar{
       counter++;
       //check if final
       State curState = curNode.getState();
-      
+      if(debugLvl > 0){
+         System.out.println("Expanded Node " + counter + " Heuristic Value " + curNode.getHeuCost());
+      }
       if(curNode.isFinal()){
-         curNode.printNode();
          System.out.println("Number of expanded Nodes = " + counter);
+         System.out.println("Maximum Fringe Size = " + maxFringeSize);
+         System.out.println("Final Path Cost = " + curNode.getTotalCost());
+         curNode.printPath();
+      
          finished = true;
          return;
       }
@@ -50,8 +61,17 @@ public class AStar{
          
          //check if children are in expanded
          if(!expanded.contains(newState.getId())){
-            Node newNode = new Node(curNode, newState, curHeur.calc(newState));
+            Node newNode = new Node(curNode, newState, curHeur.calc(newState), Integer.toString(i));
             updateFringe(newNode);
+            if(debugLvl == 2){
+               for(int j = 0; j < fringe.size(); j++){
+                  System.out.println("Fringe Node " + j + " State: " + fringe.get(j).getState().id + " H-Value " + fringe.get(j).getHeuCost());
+               }
+            }
+            if(fringe.size() > maxFringeSize)
+            {
+               maxFringeSize = fringe.size();
+            }
          }
       }
    }
