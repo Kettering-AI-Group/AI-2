@@ -10,6 +10,7 @@ public class AStar{
    ArrayList<Node> fringe = new ArrayList<Node>();
    ArrayList<String> expanded = new ArrayList<String>();
    private int maxFringeSize = 0;
+   private Map<String, Node> nodeCostMap = new HashMap<>();
    private int size = 0;
    private int counter = 0;
    private int debugLvl = 0;
@@ -77,27 +78,23 @@ public class AStar{
    }
    
    private void updateFringe(Node node){
-   
       int totalCost = node.getTotalCost();
       String curId = node.getState().id;
       int size = fringe.size();
       int i = 0;
-      while((size > i)){
-         //Check if new node holds a state already in fringe
-         if(fringe.get(i).getState().id.equals(curId)){
-         //If it is, and is more expensive, remove
-            if(fringe.get(i).getTotalCost() > totalCost){
-               fringe.remove(i);
-               break;
-            } 
-            else {
-               return;
-            }
+      Node curNode;
+      
+      //Why hashmap? speed over memory
+      if((curNode = nodeCostMap.get(curId)) != null){
+         if(curNode.getTotalCost() < totalCost){
+            fringe.remove(node);
+         }else {
+            return;
          }
-         i++;
-         
       }
-      i = 0;
+      
+      nodeCostMap.put(curId, node);
+      
       while((size > i) && (fringe.get(i).getTotalCost() < totalCost)){
          i++;
       }
