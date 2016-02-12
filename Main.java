@@ -19,29 +19,29 @@ public class Main{
    public static void main(String [] args){
       int size = 6;
       String fileLoc = "random";
-
-      if(args.length == 1){
-         size = Integer.parseInt(args[0]);
-      }else if(args.length == 2){
-         size = Integer.parseInt(args[0]);
-         fileLoc = args[1];
-      }else{
+      int debugLvl = 0;
+      if(args.length > 2){
+         fileLoc = args[args.length - 1];
+      }
+      if(args.length > 1){
+         size = Integer.parseInt(args[args.length - 2]);
+      }
+      if(args.length > 0){
+         if(args[0].equals("-d1")){
+            debugLvl = 1;
+         } 
+         else if(args[0].equals("-d2")){
+            debugLvl = 2;
+         }
+      }
+      else{
          System.out.println("No arguments or incorrect args supplied, using size " + size + " with " + fileLoc + " ordering");
       }
-       
-      State s1 = new State(new int[]{4,2,1,3,9,5,8,7,10,6});   //startFileParse(size, fileLoc)   
-      
-      AStar playerOne = new AStar(1);
-      AStar playerFive = new AStar(5);
-      AStar playerSeven = new AStar(7);
-      
-      System.out.println("------1-------");
-      playerOne.run(s1.clone());
-      System.out.println("------5-------");
-      playerFive.run(s1.clone());
-      System.out.println("------7-------");
-      playerSeven.run(s1.clone());
 
+      State fileState = new State(startFileParse(size, fileLoc));
+      AStar player = new AStar(1, debugLvl);
+      System.out.println("------1-------");
+      player.run(fileState);
    }
 
    /**************************************************
@@ -70,7 +70,8 @@ public class Main{
             res[i] = res[randomPos];
             res[randomPos] = temp;
          }
-      }else{
+      }
+      else{
          try {
             Scanner scan = new Scanner(file);
             
@@ -79,7 +80,8 @@ public class Main{
             }
             
             scan.close();
-         }catch(FileNotFoundException e){
+         }
+         catch(FileNotFoundException e){
             e.printStackTrace();
          }
       }

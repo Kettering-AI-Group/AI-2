@@ -10,6 +10,7 @@ public class Node{
    private int pathCost = -1;
    private int heuristicCost = -1;
    private int totalCost = -1;
+   private String rotateValue = "";
 
    /**************************************************
    Method Name: Node
@@ -22,8 +23,8 @@ public class Node{
    Brief description of the task: generates a node with all costs, and with the node it was generated from as parent
    Author:
    **************************************************/
-   public Node(Node pNode, State myState, int gCost, int hCost){
-      this.setup(pNode, myState, gCost, hCost);
+   public Node(Node pNode, State myState, int gCost, int hCost, String rotate){
+      this.setup(pNode, myState, gCost, hCost, rotate);
    }
 
    /**************************************************
@@ -37,8 +38,8 @@ public class Node{
          And the pathCost being generated from the parent node
    Author:
    **************************************************/
-   public Node(Node pNode, State myState, int hCost){
-      this.setup(pNode, myState, (pNode.getPathCost() + 1), hCost);
+   public Node(Node pNode, State myState, int hCost, String rotate){
+      this.setup(pNode, myState, (pNode.getPathCost() + 1), hCost, rotate);
    }
 
    /**************************************************
@@ -52,12 +53,13 @@ public class Node{
    Brief description of the task: generates a node with all costs, and with the node it was generated from as parent
    Author:
    **************************************************/
-   private void setup(Node pNode, State myState, int gCost, int hCost){
+   private void setup(Node pNode, State myState, int gCost, int hCost, String rotate){
       parent = pNode;
       state = myState;
       pathCost = gCost;
       heuristicCost = hCost;
       totalCost = gCost + hCost;   
+      rotateValue = rotate;
    }
 
    /**************************************************
@@ -108,20 +110,26 @@ public class Node{
       
       return true;
    }
-   
-   public void printNode(){
-      if(parent != null){
-         System.out.println("id: " + state.getId() + 
-                              ", parent: " + parent.getState().getId() + 
-                              ", heu: " + heuristicCost + 
-                              ", path: " + pathCost + 
-                              ", total: " + totalCost);
-      }else{
-         System.out.println("id: " + state.getId() + 
-                              ", parent: none, is root" + 
-                              ", heu: " + heuristicCost + 
-                              ", path: " + pathCost + 
-                              ", total: " + totalCost);
+   public void printPath(){
+      String[] reversed = new String[pathCost+1];
+      Node curNode = this;
+      int count = 0;
+      while(curNode != null){
+         reversed[pathCost - count] = curNode.printNode();
+         curNode = curNode.getParent();
+         count++;
       }
+      while(count > 0){
+         count--;
+         System.out.println(reversed[count]);
+      }
+      return;
+   }
+   public String printNode(){
+         return "State: " + state.getId() + 
+                              " heu: " + heuristicCost + 
+                              ", path: " + pathCost + 
+                              ", total: " + totalCost +
+                              "\nMove Made: " + rotateValue;
    }
 }
